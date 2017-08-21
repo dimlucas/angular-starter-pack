@@ -8,8 +8,8 @@ import {FormControl} from "@angular/forms";
 export class FormGroupStatusPipe implements PipeTransform {
     transform(control: FormControl) {
         return {
-            'has-success': control.touched && control.valid,
-            'has-danger': control.touched && control.invalid
+            'has-success': (control.touched && control.valid),
+            'has-danger': (control.touched && control.invalid)
         };
     }
 }
