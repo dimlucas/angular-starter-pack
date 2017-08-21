@@ -1,32 +1,53 @@
-import { TestBed, async } from '@angular/core/testing';
+import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
+import {DebugElement} from "@angular/core";
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+    let component: AppComponent;
+    let fixture: ComponentFixture<AppComponent>;
+    let de: DebugElement;
+    let el: any;
+    let secretMessage: string = "Haha! You clicked on the button! And it does nothing!";
 
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [
+                AppComponent
+            ],
+        }).compileComponents();
+    }));
 
-  it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
-  }));
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AppComponent);
+        component = fixture.componentInstance;
+        de = fixture.debugElement;
+        el = de.nativeElement;
+        fixture.detectChanges();
+    });
 
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
-  }));
+    it('should create the app', async(() => {
+        const fixture = TestBed.createComponent(AppComponent);
+        const app = fixture.debugElement.componentInstance;
+        expect(app).toBeTruthy();
+    }));
+
+    it("span shouldn't be displayed initially", () => {
+        expect(component.messageShown).toBeFalsy();
+        let span = el.querySelector("span");
+        expect(span).toBeFalsy();
+    });
+
+    it("span should be displayed when button is clicked", async () => {
+        let btn = el.querySelector("button");
+        btn.click();
+        fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            expect(component.messageShown).toBeTruthy();
+            let span = el.querySelector("span");
+            expect(span).toBeTruthy();
+            expect(span.textContent).toEqual(secretMessage);
+        });
+    })
+
 });
