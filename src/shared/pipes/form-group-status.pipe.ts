@@ -1,6 +1,11 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {FormControl} from "@angular/forms";
 
+
+/**
+ * Takes a form control object and converts its status to
+ * a bootstrap validation class for form groups (has-success / has-danger)
+ */
 @Pipe({
     name: 'formGroupStatus',
     pure: false
