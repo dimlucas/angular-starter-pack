@@ -6,9 +6,5 @@ import {Component} from '@angular/core';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    messageShown: boolean = false;
 
-    onBtnClick(): void {
-        this.messageShown = true;
-    }
 }
