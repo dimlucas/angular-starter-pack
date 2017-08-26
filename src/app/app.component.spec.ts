@@ -1,53 +1,57 @@
 import {TestBed, async, ComponentFixture} from '@angular/core/testing';
-
 import {AppComponent} from './app.component';
 import {DebugElement} from "@angular/core";
+import {RouterTestingModule} from "@angular/router/testing";
 
-describe('AppComponent', () => {
-    let component: AppComponent;
+describe("AppComponent", () => {
     let fixture: ComponentFixture<AppComponent>;
+    let component: AppComponent;
     let de: DebugElement;
     let el: any;
-    let secretMessage: string = "Haha! You clicked on the button! And it does nothing!";
 
-    beforeEach(async(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             declarations: [
                 AppComponent
             ],
+            imports: [
+                RouterTestingModule
+            ]
         }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.componentInstance;
         de = fixture.debugElement;
         el = de.nativeElement;
-        fixture.detectChanges();
     });
 
-    it('should create the app', async(() => {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = fixture.debugElement.componentInstance;
-        expect(app).toBeTruthy();
-    }));
-
-    it("span shouldn't be displayed initially", () => {
-        expect(component.messageShown).toBeFalsy();
-        let span = el.querySelector("span");
-        expect(span).toBeFalsy();
+    it("should contain a header", () => {
+        let header = el.querySelector("header");
+        expect(header).toBeTruthy();
     });
 
-    it("span should be displayed when button is clicked", async () => {
-        let btn = el.querySelector("button");
-        btn.click();
-        fixture.whenStable().then(() => {
-            fixture.detectChanges();
-            expect(component.messageShown).toBeTruthy();
-            let span = el.querySelector("span");
-            expect(span).toBeTruthy();
-            expect(span.textContent).toEqual(secretMessage);
-        });
+    it("the header should contain a navbar", () => {
+        let navbar = el.querySelector("header .navbar");
+        expect(navbar).toBeTruthy();
+    });
+
+    it("should contain a main element with a container", () => {
+        let main = el.querySelector("main");
+        expect(main).toBeTruthy();
+        let container = el.querySelector("main div.container");
+        let containerFluid = el.querySelector("main div.container-fluid");
+        expect(container || containerFluid).toBeTruthy();
+    });
+
+    it("should contain a sticky footer", () => {
+        let footer = el.querySelector("footer");
+        expect(footer).toBeTruthy();
+    });
+
+    it("container should contain a router-outlet", () => {
+        expect(el.querySelector("main div.container router-outlet") || el.querySelector("main div.container-fluid router-outlet")).toBeTruthy();
     })
 
 });
